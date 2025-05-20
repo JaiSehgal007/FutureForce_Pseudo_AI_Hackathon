@@ -8,7 +8,7 @@ import ExperienceFields from "./pages/Auth/ExperienceFields";
 import InterestedAreas from "./pages/Auth/InterestedAreas.jsx";
 import AddCourse from "./pages/AddCourse";
 import CourseDetails from "./pages/CourseDetails"; // Import the CourseDetails component
-
+import AllCourses from "./pages/AllCourses";
 export const router = createBrowserRouter([
     {
     path: '/login',
@@ -61,6 +61,10 @@ export const router = createBrowserRouter([
         {
             path: '/courses/:courseId', // New route for viewing individual courses
             element: <CourseDetails />,
+        },
+        {
+            path: '/discover',
+            element: <AllCourses />,
         }
     ]
   }

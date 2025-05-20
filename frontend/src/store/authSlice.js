@@ -9,8 +9,10 @@ export const fetchProfile=createAsyncThunk(
             const [userRes]=await Promise.all([
                 api.get('/user/current-user'),
             ]);
+            console.log(userRes)
             return {
-                user:userRes.data.user,
+                user:userRes.data.data.user,
+                isAuthenticated:true
             }
         }catch(err)
         {
@@ -24,7 +26,8 @@ const authSlice=createSlice({
     initialState:{
         user:null,
         loading:false,
-        error:null
+        error:null,
+        isAuthenticated:false,
     },
     reducers:{
         logout(state){

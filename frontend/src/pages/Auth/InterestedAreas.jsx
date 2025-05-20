@@ -13,16 +13,16 @@ const InterestedAreas = () => {
 
   // Hardcoded areas
   const areas = [
-    { name: "Web Development", icon: "🌐" },
-    { name: "Mobile Development", icon: "📱" },
+    { name: "Web ", icon: "🌐" },
+    { name: "Mobile ", icon: "📱" },
     { name: "Data Science", icon: "📊" },
     { name: "Machine Learning", icon: "🤖" },
     { name: "UI/UX Design", icon: "🎨" },
     { name: "DevOps", icon: "⚙️" },
-    { name: "Cybersecurity", icon: "🔒" },
-    { name: "Cloud Computing", icon: "☁️" },
+    { name: "Cybersec", icon: "🔒" },
+    { name: "Cloud", icon: "☁️" },
     { name: "Blockchain", icon: "🔗" },
-    { name: "Game Development", icon: "🎮" },
+    { name: "Game ", icon: "🎮" },
     { name: "AR/VR", icon: "👓" },
     { name: "IoT", icon: "🔌" }
   ];

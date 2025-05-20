@@ -10,7 +10,6 @@ import {registerUser,
     addExperienceFields,
     getRecommendedCourses
 } from "../controllers/user.controller.js";
-import axios from "axios";
 import {verifyJWT} from "../middlewares/auth.middleware.js"
 import { upload } from "../middlewares/multer.middleware.js";
 
