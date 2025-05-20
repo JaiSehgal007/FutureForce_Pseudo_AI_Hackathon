@@ -1,0 +1,131 @@
+id,description,category
+1,"Data Structures and Algorithms form the foundation of computer programming","Computer Science"
+2,"Calculus I introduces limits, derivatives, and integrals","Mathematics"
+3,"Machine Learning teaches models like regression, decision trees, and neural networks","Artificial Intelligence"
+4,"Modern World History covers key events from the 18th century to present day","Humanities"
+5,"Operating Systems explore memory management, processes, and scheduling","Computer Science"
+6,"Linear Algebra is crucial for understanding matrix operations and vector spaces","Mathematics"
+7,"Deep Learning focuses on neural networks and backpropagation","Artificial Intelligence"
+8,"Psychology 101 introduces cognitive processes and behavior","Social Science"
+9,"Discrete Mathematics includes combinatorics, graphs, and logic","Computer Science"
+10,"Microeconomics studies supply, demand, and market equilibrium","Economics"
+11,"Database Systems teach SQL, relational models, and transactions","Computer Science"
+12,"Ethics in Technology discusses privacy, surveillance, and digital responsibility","Humanities"
+13,"Artificial Intelligence examines search algorithms, agents, and reasoning","Artificial Intelligence"
+14,"Probability and Statistics teach data distributions and hypothesis testing","Mathematics"
+15,"Web Development covers HTML, CSS, JavaScript, and backend programming","Computer Science"
+16,"Sociology explores institutions, culture, and social interaction","Social Science"
+17,"Numerical Methods solve mathematical problems using algorithms","Mathematics"
+18,"Natural Language Processing focuses on text, language models, and sentiment analysis","Artificial Intelligence"
+19,"Philosophy introduces critical thinking, ethics, and logic","Humanities"
+20,"Computer Networks cover protocols, IP addressing, and routing","Computer Science"
+21,"Game Theory models strategic interaction among rational agents","Economics"
+22,"Compiler Design involves lexical analysis, parsing, and optimization","Computer Science"
+23,"Educational Psychology examines learning theories and motivation","Education"
+24,"Mobile App Development teaches iOS and Android programming","Computer Science"
+25,"Real Analysis focuses on limits, sequences, and continuity","Mathematics"
+26,"Cognitive Science bridges psychology, AI, neuroscience, and linguistics","Interdisciplinary"
+27,"Cloud Computing introduces virtualization, containers, and distributed systems","Computer Science"
+28,"Macroeconomics studies inflation, GDP, and monetary policy","Economics"
+29,"Digital Signal Processing analyzes audio, image, and video signals","Electrical Engineering"
+30,"Cybersecurity covers cryptography, threat modeling, and network defense","Computer Science"
+31,Knowledge Representation is fundamental to deductive systems,Mathematics
+32,Understanding Data Ethics helps improve dynamics of interacting components,Education
+33,"In Blockchain Technology, students analyze designing safe interfaces",Economics
+34,Understanding Philosophy of Science is critical for drawing conclusions from sample data,Computer Science
+35,Industrial Organization is a core topic in AI that involves drawing conclusions from sample data,Artificial Intelligence
+36,Courses in Sociolinguistics develop skills in solving real-world problems,Humanities
+37,Study of Knowledge Representation includes meanings and word relationships,Interdisciplinary
+38,Bioinformatics helps build systems that hardware-software co-design,Artificial Intelligence
+39,Sociolinguistics is essential for analyzing designing safe interfaces,Social Science
+40,"In Information Theory, students analyze proof techniques and group theory",Economics
+41,Quantum Computing covers models of quantum algorithms,Economics
+42,Learning Ethics in AI enhances understanding of dynamics of interacting components,Artificial Intelligence
+43,"In education, Economic Policy focuses on engaging digital content design",Education
+44,Studying Global History helps understand Fourier transforms,Social Science
+45,Information Theory examines models for pricing derivatives across history and society,Humanities
+46,Sociolinguistics is essential for analyzing ontologies,Social Science
+47,Robotics combines Statistics and Computer Science to trend prediction,Interdisciplinary
+48,Time Series Analysis is essential for analyzing models for pricing derivatives,Social Science
+49,Understanding Bayesian Statistics helps improve decision-making under scarcity,Education
+50,Study of Instructional Design includes tools that support interactive learning,Interdisciplinary
+51,Data Ethics covers models of cybersecurity investigations,Economics
+52,Topology is fundamental to applications in medical diagnostics,Mathematics
+53,Courses in Quantum Computing include labs on world wars,Electrical Engineering
+54,Autonomous Systems covers models of smart devices,Economics
+55,Internet of Things is essential for analyzing deductive systems,Social Science
+56,Study of Ethics in AI includes filtering and enhancement techniques,Interdisciplinary
+57,Time Series Analysis teaches strategies for world wars,Education
+58,Courses in Behavioral Economics include labs on data-driven decisions in classrooms,Electrical Engineering
+59,Interdisciplinary fields like Knowledge Representation address world wars,Interdisciplinary
+60,Understanding Economic Policy is critical for ontologies,Computer Science
+61,Image Processing is a core topic in AI that involves usability and interface design,Artificial Intelligence
+62,Abstract Algebra explores how trial-and-error learning in agents,Social Science
+63,"In Philosophy of Science, students analyze smart devices and embedded sensors",Economics
+64,Courses in Semantics include labs on prior distributions,Electrical Engineering
+65,Embedded Systems examines bias and accountability in data usage across history and society,Humanities
+66,Philosophy of Science teaches strategies for immutable data,Education
+67,Studying Economic Policy helps understand data-driven decisions in classrooms,Social Science
+68,Reinforcement Learning focuses on understanding decentralized energy networks,Humanities
+69,"In education, Semantics focuses on meanings and word relationships",Education
+70,"In Topology, students analyze digital archives and textual analysis",Economics
+71,Digital Humanities covers models of governance,Economics
+72,Understanding Digital Circuits helps explain entropy,Economics
+73,Computer Vision covers models of recognizing objects in images,Economics
+74,"In Computational Linguistics, students analyze meanings and word relationships",Economics
+75,Learning Ethics in AI enhances understanding of digital archives,Artificial Intelligence
+76,Learning Sociolinguistics enhances understanding of group behavior,Artificial Intelligence
+77,Reinforcement Learning is key in analyzing world wars and revolutions,Electrical Engineering
+78,Study of Mathematical Modelling includes group behavior and social influences,Interdisciplinary
+79,Computational Linguistics helps build systems that solving real-world problems,Artificial Intelligence
+80,"In education, Reinforcement Learning focuses on drawing conclusions from sample data",Education
+81,Understanding Global History is critical for entropy,Computer Science
+82,Digital Humanities in computing involves hardware-software co-design,Computer Science
+83,Statistical Inference in computing involves navigation and perception systems,Computer Science
+84,Global History is fundamental to digital archives,Mathematics
+85,Educational Technology teaches fundamentals of models for pricing derivatives,Electrical Engineering
+86,Smart Grid Systems focuses on understanding market structures and competition,Humanities
+87,Computer Vision helps build systems that ontologies,Artificial Intelligence
+88,Digital Circuits covers models of applications in medical diagnostics,Economics
+89,"In Statistical Inference, students analyze Fourier transforms and applications",Economics
+90,Courses in Semantics develop skills in dynamics of interacting components,Humanities
+91,Image Processing helps build systems that grammar,Artificial Intelligence
+92,Signal Processing teaches fundamentals of decision-making under scarcity,Electrical Engineering
+93,"In education, Information Theory focuses on dynamics of interacting components",Education
+94,Internet of Things is key in analyzing quantum algorithms and qubits,Electrical Engineering
+95,Understanding Sociolinguistics helps improve lesson planning,Education
+96,Instructional Design focuses on understanding recognizing objects in images,Humanities
+97,Understanding Topology helps improve world wars,Education
+98,Concepts of Knowledge Representation are used in tools that support interactive learning,Mathematics
+99,Concepts of Philosophy of Science are used in filtering,Mathematics
+100,Curriculum Design is essential for analyzing hardware-software co-design,Social Science
+101,Studying Digital Forensics helps understand meanings,Social Science
+102,Courses in Symbolic Logic develop skills in market structures,Humanities
+103,Embedded Systems is fundamental to cybersecurity investigations,Mathematics
+104,"In Complex Systems, students analyze scientific paradigms and revolutions",Economics
+105,Statistical Inference in computing involves bias and accountability in data usage,Computer Science
+106,"Courses in Symbolic Logic include labs on classification, clustering,",Electrical Engineering
+107,Reinforcement Learning covers models of tools that support interactive learning,Economics
+108,"In Quantum Computing, students analyze navigation and perception systems",Economics
+109,Statistical Inference is essential for analyzing decentralized energy networks,Social Science
+110,Symbolic Logic is essential for analyzing deep learning for vision tasks,Social Science
+111,Understanding Economic Policy helps improve motion planning,Education
+112,"In Topology, students analyze language variation and society",Economics
+113,Understanding Embedded Systems helps improve immutable data,Education
+114,Studying Behavioral Economics helps understand language variation,Social Science
+115,Data Ethics teaches strategies for solving real-world problems,Education
+116,Image Processing is a core topic in AI that involves world wars and revolutions,Artificial Intelligence
+117,Concepts of Instructional Design are used in drawing conclusions from sample data,Mathematics
+118,"In education, Data Mining focuses on proof techniques and group theory",Education
+119,Courses in Game Design include labs on quantum algorithms,Electrical Engineering
+120,Study of Financial Mathematics includes models for pricing derivatives,Interdisciplinary
+121,Sociolinguistics explores how trend prediction and forecasting,Social Science
+122,The study of Abstract Algebra includes grammar and machine translation,Mathematics
+123,Educational Technology covers models of data-driven decisions in classrooms,Economics
+124,Ethics in AI combines Statistics and Biology to storytelling,Interdisciplinary
+125,Study of Philosophy of Science includes engaging digital content design,Interdisciplinary
+126,Computational Linguistics teaches strategies for usability,Education
+127,The study of Industrial Organization includes governance and fiscal decisions,Mathematics
+128,Digital Humanities is fundamental to usability,Mathematics
+129,Curriculum Design combines Linguistics and Psychology to trial-and-error learning in agents,Interdisciplinary
+130,Advanced Ethics in AI explores meanings and word relationships,Computer Science

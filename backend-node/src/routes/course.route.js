@@ -8,7 +8,8 @@ import {
     deleteCourse,
     enrollInCourse,
     unenrollFromCourse,
-    getEnrolledCourses
+    getEnrolledCourses,
+    getRecommendedCourses
 } from "../controllers/course.controller.js";
 
 import {verifyJWT} from "../middlewares/auth.middleware.js"
@@ -48,5 +49,7 @@ router.delete("/unenroll/:courseId" , verifyJWT , unenrollFromCourse);
 router.post("/my-courses" , 
     verifyJWT , 
     getEnrolledCourses);
+
+router.get("/recommend", verifyJWT, getRecommendedCourses);
 
 export default router;
