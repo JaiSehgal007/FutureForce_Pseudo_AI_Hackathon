@@ -105,6 +105,54 @@ const addExperienceFields = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, user, "Experience updated"));
 });
 
+
+// Get recommended courses by calling FastAPI backend
+const getRecommendedCourses = asyncHandler(async (req, res) => {
+  // Get user from JWT (set by verifyJWT middleware)
+  const userId = req.user?._id;
+  if (!userId) {
+    throw new ApiError(401, "Unauthorized: User not found");
+  }
+
+  // Fetch user from MongoDB
+  const user = await User.findById(userId).select("interestedAreas");
+  if (!user || !user.interestedAreas || user.interestedAreas.length === 0) {
+    throw new ApiError(404, "No interested areas found for user");
+  }
+
+  try {
+    // Call FastAPI /recommend-courses endpoint
+    const fastapiUrl = `${process.env.FASTAPI_URL}/recommend-courses`;
+    const response = await axios.post(fastapiUrl, {
+      interestedAreas: user.interestedAreas,
+    }, {
+      headers: { "Content-Type": "application/json" },
+    });
+
+    // Format response to match FastAPI output
+    const results = response.data.map((item) => ({
+      area: item.area,
+      courses: item.courses.map((course) => ({
+        id: course.id,
+        score: course.score,
+        course_name: course.course_name,
+        category: course.category,
+        text: course.text,
+      })),
+    }));
+
+    return res.status(200).json(
+      new ApiResponse(200, "Recommended courses fetched successfully", results)
+    );
+  } catch (error) {
+    console.error("Error calling FastAPI:", error.response?.data || error.message);
+    throw new ApiError(
+      error.response?.status || 500,
+      error.response?.data?.detail || "Failed to fetch recommended courses"
+    );
+  }
+});
+
 export {
   registerUser,
   loginUser,
@@ -114,5 +162,6 @@ export {
   getCurrentUser,
   changeUserDetails,
   addInterestedAreas,
-  addExperienceFields
+  addExperienceFields,
+  getRecommendedCourses,
 };

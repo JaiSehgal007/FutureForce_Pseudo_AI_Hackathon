@@ -7,7 +7,8 @@ import {registerUser,
     getCurrentUser,
     changeUserDetails,
     addInterestedAreas,
-    addExperienceFields
+    addExperienceFields,
+    getRecommendedCourses
 } from "../controllers/user.controller.js";
 
 import {verifyJWT} from "../middlewares/auth.middleware.js"
@@ -45,6 +46,8 @@ router.patch("/change-user-details" , verifyJWT , upload.fields([
 
 router.patch("/add-interested-areas" , verifyJWT , addInterestedAreas);
 router.patch("/add-experience-fields" , verifyJWT , addExperienceFields);
+
+router.get("/recommend", verifyJWT, getRecommendedCourses);
 
 export default router;
 
