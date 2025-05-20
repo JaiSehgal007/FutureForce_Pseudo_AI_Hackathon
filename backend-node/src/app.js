@@ -20,8 +20,10 @@ app.use("/test" , (req , res) => {
 
 //Routers
 import userRouter from "./routes/user.route.js";
-
+import courseRouter from "./routes/course.route.js";
+import moduleRouter from "./routes/module.route.js";
 //Routes
 app.use("/api/v1/user" , userRouter)
-
+app.use("/api/v1/course" , courseRouter)
+app.use("/api/v1/module" , moduleRouter)
 export {app};

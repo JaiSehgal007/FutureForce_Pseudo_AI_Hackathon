@@ -4,7 +4,9 @@ import {Module} from "../models/module.model.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {Course} from "../models/course.model.js"
-
+import {User} from "../models/user.model.js"
+import { AttendedCourse } from "../models/attendedCourse.model.js";
+import mongoose from "mongoose";
 const createModule = asyncHandler(async (req, res) => {
     try {
         const { title, description, courseId } = req.body;
@@ -38,27 +40,45 @@ const createModule = asyncHandler(async (req, res) => {
         if (!module) {
             throw new ApiError(500, "Could not create module");
         }
-        return new ApiResponse(201, "Module created successfully", module);
+        return res.status(201).json(new ApiResponse(201, "Module created successfully", module));
     } catch (error) {
         throw new ApiError(500, error?.message || "Could not create module");
     }
 })
 
 const getModules = asyncHandler(async (req, res) => {
-    try {
-        const { courseId } = req.body;
-        if (!courseId) {
-            throw new ApiError(400, "Please provide courseId");
-        }
-        const course = await Course.findById(courseId).populate("modules");
-        if (!course) {
-            throw new ApiError(404, "Course not found");
-        }
-        return new ApiResponse(200, "Modules fetched successfully", course.modules);
-    } catch (error) {
-        throw new ApiError(500, error?.message || "Could not fetch modules");
-    }
-})
+  const userId = req.user._id;
+  const { courseId } = req.body;
+
+  if (!courseId) {
+    throw new ApiError(400, "Please provide courseId");
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(courseId)) {
+    throw new ApiError(400, "Invalid courseId");
+  }
+
+  // Fetch the course and populate its modules
+  const course = await Course.findById(courseId).populate("modules");
+  if (!course) {
+    throw new ApiError(404, "Course not found");
+  }
+
+  // Fetch the attendedCourse to check completed modules
+  const attended = await AttendedCourse.findOne({ user: userId, course: courseId });
+  const completedModuleIds = attended ? attended.completedModules.map(id => id.toString()) : [];
+
+  // Add "completed" flag to each module
+  const modulesWithCompletion = course.modules.map((module) => ({
+    ...module.toObject(),
+    completed: completedModuleIds.includes(module._id.toString()),
+  }));
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Modules fetched successfully", modulesWithCompletion));
+});
+
 
 const deleteModule = asyncHandler(async (req, res) => {
     try {
@@ -78,7 +98,7 @@ const deleteModule = asyncHandler(async (req, res) => {
         await Module.findByIdAndDelete(moduleId);
         course.modules = course.modules.filter((mod) => mod.toString() !== moduleId);
         await course.save();
-        return new ApiResponse(200, "Module deleted successfully", null);
+        return res.status(200).json(new ApiResponse(200, "Module deleted successfully", null));
     } catch (error) {
         throw new ApiError(500, error?.message || "Could not delete module");
     }
@@ -114,10 +134,76 @@ const updateModule = asyncHandler(async (req, res) => {
         module.description = description;
         if(imageUrl)
         module.image = imageUrl || module.image;
-    
+
         await module.save();
-        return new ApiResponse(200, "Module updated successfully", module);
+        return res.status(200).json(new ApiResponse(200, "Module updated successfully", module));
     } catch (error) {
         throw new ApiError(500, error?.message || "Could not update module");
     }
 })
+
+const getModuleById = asyncHandler(async (req, res) => {
+    try {
+        const { moduleId } = req.params;
+        if (!moduleId) {
+            throw new ApiError(400, "Please provide moduleId");
+        }
+        const module = await Module.findById(moduleId);
+        if (!module) {
+            throw new ApiError(404, "Module not found");
+        }
+        return res.status(200).json(new ApiResponse(200, "Module fetched successfully", module));
+    } catch (error) {
+        throw new ApiError(500, error?.message || "Could not fetch module");
+    }
+})
+
+const toggleCompletedModule = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const { courseId, moduleId } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(courseId) || !mongoose.Types.ObjectId.isValid(moduleId)) {
+    throw new ApiError(400, "Invalid courseId or moduleId");
+  }
+
+  const attendedCourse = await AttendedCourse.findOne({
+    user: userId,
+    course: courseId,
+  });
+
+  if (!attendedCourse) {
+    throw new ApiError(404, "User is not enrolled in this course");
+  }
+
+  const moduleIndex = attendedCourse.completedModules.findIndex(
+    (modId) => modId.toString() === moduleId
+  );
+
+  if (moduleIndex !== -1) {
+    // Already marked completed → unmark
+    attendedCourse.completedModules.splice(moduleIndex, 1);
+  } else {
+    // Not marked → mark as completed
+    attendedCourse.completedModules.push(new mongoose.Types.ObjectId(moduleId));
+  }
+
+  await attendedCourse.save();
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      attendedCourse.completedModules,
+      "Module completion status toggled successfully"
+    )
+  );
+});
+
+
+export {
+    createModule,
+    getModules,
+    deleteModule,
+    updateModule,
+    toggleCompletedModule,
+    getModuleById
+}
