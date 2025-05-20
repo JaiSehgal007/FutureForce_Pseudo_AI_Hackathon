@@ -6,7 +6,7 @@ import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import mongoose from "mongoose";
 import { AttendedCourse } from "../models/attendedCourse.model.js";
-
+import { Module } from "../models/module.model.js";
 // CREATE COURSE
 const createCourse = asyncHandler(async (req, res) => {
   const { _id } = req.user;
@@ -42,11 +42,16 @@ const createCourse = asyncHandler(async (req, res) => {
 
 // ADD MODULES TO COURSE
 const addModulesToCourse = asyncHandler(async (req, res) => {
-  const { courseId, modules } = req.body;
+  // Get courseId from URL params instead of body
+  const courseId = req.params.courseId;
   const userId = req.user._id;
-
-  if (!courseId || !modules || !Array.isArray(modules)) {
-    throw new ApiError(400, "Please provide courseId and modules array");
+  
+  // Extract module data from request body
+  const title = req.body.title;
+  const description = req.body.description;
+  
+  if (!courseId || !title) {
+    throw new ApiError(400, "Please provide courseId and module title");
   }
 
   const course = await Course.findById(courseId);
@@ -55,12 +60,31 @@ const addModulesToCourse = asyncHandler(async (req, res) => {
   if (course.mentor.toString() !== userId.toString()) {
     throw new ApiError(403, "You are not authorized to modify this course");
   }
-
-  course.modules.push(...modules);
+  
+  // Create a new module
+  const moduleData = {
+    title,
+    description: description || ""
+  };
+  
+  // Add image URL if an image was uploaded
+  if (req.files && req.files.image && req.files.image.length > 0) {
+    // Process the uploaded file (this depends on your file upload setup)
+    const uploadedFile = req.files.image[0];
+    // Assuming you have a function to get the URL of the uploaded file
+    moduleData.image = uploadedFile.path; // or however you get the image URL
+  }
+  
+  // Create the module
+  const module = await Module.create(moduleData);
+  
+  // Add module ID to course
+  course.modules.push(module._id);
   await course.save();
 
-  return res.status(200).json(new ApiResponse(200, "Modules added to course", course));
+  return res.status(200).json(new ApiResponse(200, "Module added to course", course));
 });
+
 
 // GET ALL COURSES
 const getAllCourses = asyncHandler(async (req, res) => {

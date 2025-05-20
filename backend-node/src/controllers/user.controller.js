@@ -92,10 +92,14 @@ const changeUserDetails = asyncHandler(async (req, res) => {
 });
 
 const addInterestedAreas = asyncHandler(async (req, res) => {
-  const { areas } = req.body;
-  if (!Array.isArray(areas) || !areas.length) throw new ApiError(400, "Provide valid areas");
-  const user = await User.findByIdAndUpdate(req.user._id, { $addToSet: { interestedAreas: { $each: areas } } }, { new: true }).select("-password -refreshToken");
-  res.status(200).json(new ApiResponse(200, user, "Interests updated"));
+  try {
+    const { areas } = req.body;
+    if (!Array.isArray(areas) || !areas.length) throw new ApiError(400, "Provide valid areas");
+    const user = await User.findByIdAndUpdate(req.user._id, { $addToSet: { interestedAreas: { $each: areas } } }, { new: true }).select("-password -refreshToken");
+    return res.status(200).json(new ApiResponse(200, user, "Interests updated"));
+  } catch (error) {
+    throw new ApiError(500, "Error updating interests");
+  }
 });
 
 const addExperienceFields = asyncHandler(async (req, res) => {
