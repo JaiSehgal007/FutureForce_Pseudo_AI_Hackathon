@@ -72,7 +72,7 @@ export const fetchProfile = createAsyncThunk(
       return {
         user,
         isAuthenticated: true,
-        role: user.role // 👈 assuming your backend returns user.role as "Student" or "Mentor"
+        userType: user.userType // 👈 assuming your backend returns user.role as "Student" or "Mentor"
       };
     } catch (err) {
       return rejectWithValue(err.response?.data.message || err.message);
@@ -84,7 +84,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
-    role: null, // 👈 added to track role
+    userType: null, // 👈 added to track role
     loading: false,
     error: null,
     isAuthenticated: false,
@@ -92,7 +92,7 @@ const authSlice = createSlice({
   reducers: {
     logout(state) {
       state.user = null;
-      state.role = null; // 👈 clear role on logout
+      state.userType = null; // 👈 clear role on logout
       state.isAuthenticated = false;
       state.loading = false;
     }
@@ -105,14 +105,14 @@ const authSlice = createSlice({
       .addCase(fetchProfile.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
-        state.role = action.payload.role; // 👈 save the role
+        state.userType = action.payload.userType; // 👈 save the role
         state.isAuthenticated = action.payload.isAuthenticated;
       })
       .addCase(fetchProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
         state.isAuthenticated = false;
-        state.role = null;
+        state.userType = null;
       });
   }
 });

@@ -62,9 +62,9 @@ const AddCourse = () => {
   const [isAddingModule, setIsAddingModule] = useState(false);
   const [courseId, setCourseId] = useState(null);
 
-  const { role } = useSelector((state) => state.auth);
+  const { userType } = useSelector((state) => state.auth);
 
-  if (role !== "Mentor") {
+  if (userType !== "Mentor") {
     return (
       <div className="flex items-center justify-center h-[60vh]">
         <p className="text-lg text-gray-600 dark:text-gray-300">
