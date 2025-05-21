@@ -65,12 +65,133 @@ A key highlight of Learning Buddy is its **Personalized Course Recommendation** 
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Modern UI (React/Next.js or similar)
-- **AI/ML Backend**: LLM or NLP-based Q&A engine
+- **Frontend**: React.js
+- **AI/ML Backend**: LLM and NLP-based Q&A engine
 - **Speech Services**: Azure Cognitive Services (STT, TTS)
 - **Recommendation Engine**: Context-aware system based on chat history and learning intent
+- **Database**: Pinecone (Vector DB), MongoDB
 
 ---
+
+---
+
+## ⚙️ Setup & Installation
+
+### 📦 Backend (ML Service - `backend-ml`)
+
+1. **Navigate to the backend-ml folder**:
+
+   ```bash
+   cd backend-ml
+   ```
+
+2. **Install dependencies**:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Create a `.env` file** in `backend-ml/` with the following content:
+
+   ```
+   COURSE_API_KEY=<YOUR_COURSE_API_KEY>
+   FAQ_API_KEY=<YOUR_FAQ_API_KEY>
+   SPEECH_KEY=<YOUR_AZURE_SPEECH_KEY>
+   SPEECH_REGION=<YOUR_SPEECH_REGION>
+   SPEECH_LANGUAGE=<YOUR_SPEECH_LANGUAGE>
+   AZURE_OPENAI_ENDPOINT=<YOUR_AZURE_OPENAI_ENDPOINT>
+   AZURE_OPENAI_KEY=<YOUR_AZURE_OPENAI_KEY>
+   STORAGE_CONNECTION_STRING=<YOUR_AZURE_STORAGE_CONNECTION_STRING>
+   LANGUAGE_KEY=<YOUR_LANGUAGE_API_KEY>
+   LANGUAGE_ENDPOINT=<YOUR_LANGUAGE_API_ENDPOINT>
+   ```
+
+4. **Run the FastAPI server**:
+
+   ```bash
+   uvicorn app:app --host 0.0.0.0 --port 8000
+   ```
+
+---
+
+### 🧩 Backend (Node.js Service - `backend-node`)
+
+1. **Navigate to the backend-node folder**:
+
+   ```bash
+   cd backend-node
+   ```
+
+2. **Install dependencies**:
+
+   ```bash
+   npm install
+   ```
+
+3. **Create a `.env` file** in `backend-node/` with the following variables:
+
+   ```
+   CORS_ORIGIN=<YOUR_CORS_ORIGIN>
+   MONGO_DB_URL=<YOUR_MONGO_DB_CONNECTION_STRING>
+   PORT=<PORT_NUMBER>
+   ACCESS_TOKEN_SECRET=<ACCESS_TOKEN_SECRET>
+   ACCESS_TOKEN_EXPIRY=<EXPIRY_TIME>
+   REFRESH_TOKEN_SECRET=<REFRESH_TOKEN_SECRET>
+   REFRESH_TOKEN_EXPIRY=<EXPIRY_TIME>
+
+   CLOUDINARY_CLOUD_NAME=<YOUR_CLOUD_NAME>
+   CLOUDINARY_API_KEY=<YOUR_CLOUDINARY_API_KEY>
+   CLOUDINARY_API_SECRET=<YOUR_CLOUDINARY_API_SECRET>
+   FASTAPI_URL=<FASTAPI_BACKEND_URL>
+
+   SPEECH_KEY=<YOUR_SPEECH_KEY>
+   SPEECH_REGION=<YOUR_SPEECH_REGION>
+   SPEECH_LANGUAGE=<YOUR_SPEECH_LANGUAGE>
+   AZURE_OPENAI_ENDPOINT=<YOUR_AZURE_OPENAI_ENDPOINT>
+   AZURE_OPENAI_KEY=<YOUR_AZURE_OPENAI_KEY>
+   STORAGE_CONNECTION_STRING=<YOUR_STORAGE_CONNECTION_STRING>
+   LANGUAGE_KEY=<YOUR_LANGUAGE_KEY>
+   LANGUAGE_ENDPOINT=<YOUR_LANGUAGE_ENDPOINT>
+   ```
+
+4. **Run the Node.js server**:
+
+   ```bash
+   npm run dev
+   ```
+
+---
+
+### 🌐 Frontend (Vite-based)
+
+1. **Navigate to the frontend folder**:
+
+   ```bash
+   cd frontend
+   ```
+
+2. **Create a `.env` file** in `frontend/` with the following content:
+
+   ```
+   VITE_SPEECH_KEY=<YOUR_SPEECH_KEY>
+   VITE_SPEECH_REGION=<YOUR_SPEECH_REGION>
+   VITE_SPEECH_LANGUAGE=<YOUR_SPEECH_LANGUAGE>
+   ```
+
+3. **Install dependencies**:
+
+   ```bash
+   npm install
+   ```
+
+4. **Run the frontend app**:
+
+   ```bash
+   npm run dev
+   ```
+
+---
+
 
 ## 📌 Use Cases
 
