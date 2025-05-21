@@ -33,22 +33,33 @@ const Home = () => {
   const [activeTab, setActiveTab] = useState("All");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const dispatch = useDispatch();
-  const [isAuthenticated, setIsAuthenticated] = useState(useSelector((state) => state.auth.isAuthenticated));
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const { isMobile, isTablet } = useResponsiveLayout();
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Fetch all courses
-    dispatch(fetchProfile());
-    fetchCourses();
-
-    // Fetch recommended courses if user is authenticated
-    if(isAuthenticated) 
+// In your Home component
+useEffect(() => {
+  // First check if we're already authenticated
+  if (isAuthenticated) {
+    // If already authenticated, fetch recommendations immediately
     fetchRecommendedCourses();
-    else 
+  } else {
+    // If not authenticated, first fetch profile
+    dispatch(fetchProfile()).then(result => {
+      // Check if authentication was successful
+      if (result.payload && !result.error) {
+        fetchRecommendedCourses();
+      } else {
         setLoadingRecommendations(false);
-  }, [isAuthenticated]);
+      }
+    });
+  }
+  
+  // Always fetch general courses regardless of auth state
+  fetchCourses();
+}, [dispatch]);
+
 
   const fetchCourses = async () => {
     try {
