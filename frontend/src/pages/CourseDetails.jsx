@@ -137,7 +137,7 @@ const CourseDetails = () => {
         <AlertCircle className="h-16 w-16 mx-auto text-destructive mb-4" />
         <h2 className="text-2xl font-bold mb-2">Course Not Found</h2>
         <p className="text-muted-foreground mb-6">The course you're looking for doesn't exist or has been removed.</p>
-        <Button onClick={() => navigate("/courses")}>
+        <Button onClick={() => navigate("/dashboard")}>
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Courses
         </Button>
@@ -152,7 +152,7 @@ const CourseDetails = () => {
       <Button 
         variant="ghost" 
         className="mb-6"
-        onClick={() => navigate("/courses")}
+        onClick={() => navigate("/dashboard")}
       >
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back to Courses
@@ -204,7 +204,31 @@ const CourseDetails = () => {
             
             <TabsContent value="modules" className="pt-4">
               <h2 className="text-xl font-semibold mb-4">Course Content</h2>
-              
+
+              {/* <pre>{JSON.stringify(course, null, 2)}</pre>
+
+{course && course.modules && course.modules.length > 0 ? (
+  <div>
+    {course.modules.map((module, moduleIndex) => (
+      <div key={moduleIndex}>
+        <p>Module {moduleIndex + 1}: {module.title}</p>
+        
+        {module.content && module.content.length > 0 ? (
+          <div>
+            {module.content.map((item, contentIndex) => (
+              <p key={contentIndex}>- {item}</p>
+            ))}
+          </div>
+        ) : (
+          <p>No content in this module.</p>
+        )}
+      </div>
+    ))}
+  </div>
+) : (
+  <p>No modules found.</p>
+)} */}
+                          
               {course.modules && course.modules.length > 0 ? (
                 <Accordion type="single" collapsible className="w-full">
                   {course.modules.map((module, index) => (

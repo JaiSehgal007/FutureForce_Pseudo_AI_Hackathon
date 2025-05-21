@@ -159,6 +159,40 @@ const getRecommendedCourses = asyncHandler(async (req, res) => {
   }
 });
 
+const chatWithLLM = asyncHandler(async (req, res) => {
+  const { query } = req.body;
+  if (!query || typeof query !== "string" || query.trim() === "") {
+    throw new ApiError(400, "Valid query is required");
+  }
+
+  const userId = req.user?._id;
+  if (!userId) {
+    throw new ApiError(401, "Unauthorized: User not found");
+  }
+
+  console.log(req.body)
+
+  try {
+    const fastapiUrl = `${process.env.FASTAPI_URL}/retrieve-faq-and-respond`;
+    const response = await axios.post(fastapiUrl, { query: query.trim() }, {
+      headers: { "Content-Type": "application/json" },
+      timeout: 10000 // 10 seconds
+    });
+
+    const { response: llmResponse, faqs } = response.data;
+
+    return res.status(200).json(
+      new ApiResponse(200, { response: llmResponse, faqs }, "Chat response generated successfully")
+    );
+  } catch (error) {
+    console.error("Error calling FastAPI:", error.response?.data || error.message);
+    throw new ApiError(
+      error.response?.status || 500,
+      error.response?.data?.detail || "Failed to generate chat response"
+    );
+  }
+});
+
 export {
   registerUser,
   loginUser,
@@ -170,4 +204,5 @@ export {
   addInterestedAreas,
   addExperienceFields,
   getRecommendedCourses,
+  chatWithLLM,
 };

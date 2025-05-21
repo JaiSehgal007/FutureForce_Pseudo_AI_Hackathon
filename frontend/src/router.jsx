@@ -9,6 +9,8 @@ import InterestedAreas from "./pages/Auth/InterestedAreas.jsx";
 import AddCourse from "./pages/AddCourse";
 import CourseDetails from "./pages/CourseDetails"; // Import the CourseDetails component
 import AllCourses from "./pages/AllCourses";
+import Chat from "./pages/ChatInterface"
+
 export const router = createBrowserRouter([
     {
     path: '/login',
@@ -65,6 +67,10 @@ export const router = createBrowserRouter([
         {
             path: '/discover',
             element: <AllCourses />,
+        },
+        {
+            path: '/chat',
+            element: <Chat />,
         }
     ]
   }
