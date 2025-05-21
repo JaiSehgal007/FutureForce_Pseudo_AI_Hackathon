@@ -9,9 +9,11 @@ import api from "@/services/api";
 import { useDispatch } from "react-redux";
 import { fetchProfile } from "@/store/authSlice";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useSelector } from "react-redux";
 
 const Login = () => {
   const { toast } = useToast();
+  const { role } = useSelector(state => state.auth);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();

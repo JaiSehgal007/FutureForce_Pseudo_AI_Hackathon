@@ -78,7 +78,7 @@ async def recommend_courses(request: CourseRequest):
             # Query course index
             query_results = course_index.query(
                 vector=embedding,
-                top_k=2,
+                top_k=3,
                 include_metadata=True
             )
             
@@ -157,7 +157,7 @@ async def retrieve_faq_and_respond(request: QueryRequest):
                 "score": match.score
             }
             for match in query_results.matches
-            if match.score > 0.7
+            if match.score > 0.5
         ]
 
         # Construct prompt for Azure OpenAI

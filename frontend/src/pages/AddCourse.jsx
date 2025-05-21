@@ -5,6 +5,7 @@ import * as z from "zod";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import api from "@/services/api";
+import { useSelector } from "react-redux";
 
 // UI Components
 import { Button } from "@/components/ui/button";
@@ -61,6 +62,17 @@ const AddCourse = () => {
   const [isAddingModule, setIsAddingModule] = useState(false);
   const [courseId, setCourseId] = useState(null);
 
+  const { role } = useSelector((state) => state.auth);
+
+  if (role !== "Mentor") {
+    return (
+      <div className="flex items-center justify-center h-[60vh]">
+        <p className="text-lg text-gray-600 dark:text-gray-300">
+          Become a Mentor To Add a Course Now!
+        </p>
+      </div>
+    );
+  }
   // Initialize course form
   const courseForm = useForm({
     resolver: zodResolver(courseSchema),
