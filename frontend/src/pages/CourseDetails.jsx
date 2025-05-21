@@ -9,10 +9,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { BookOpen, Clock, Users, CheckCircle, AlertCircle, ArrowLeft } from "lucide-react";
+import { BookOpen, Clock, Users, CheckCircle, AlertCircle, ArrowLeft, Check } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import api from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
+import { useDispatch } from "react-redux";
+import { fetchProfile } from "@/store/authSlice";
 
 const CourseDetails = () => {
   const { courseId } = useParams();
@@ -20,16 +22,26 @@ const CourseDetails = () => {
   const [loading, setLoading] = useState(true);
   const [enrolling, setEnrolling] = useState(false);
   const [isEnrolled, setIsEnrolled] = useState(false);
+  const [completedModules, setCompletedModules] = useState([]);
+  const [togglingCompletion, setTogglingCompletion] = useState(false);
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(fetchProfile());
     fetchCourseDetails();
     if (isAuthenticated) {
       checkEnrollmentStatus();
     }
   }, [courseId, isAuthenticated]);
+
+  useEffect(() => {
+    if (isEnrolled) {
+      fetchCompletedModules();
+    }
+  }, [isEnrolled]);
 
   const fetchCourseDetails = async () => {
     setLoading(true);
@@ -54,9 +66,57 @@ const CourseDetails = () => {
   const checkEnrollmentStatus = async () => {
     try {
       const response = await api.get(`/course/check-enrollment/${courseId}`);
-      setIsEnrolled(response.data.enrolled);
+      setIsEnrolled(response.data.message);
     } catch (error) {
       console.error("Error checking enrollment status:", error);
+    }
+  };
+
+  const fetchCompletedModules = async () => {
+    try {
+      const response = await api.get(`/course/completed-modules/${courseId}`);
+      if (response.data && response.data.success) {
+        setCompletedModules(response.data.message.completedModules || []);
+      }
+    } catch (error) {
+      console.error("Error fetching completed modules:", error);
+      toast({
+        title: "Error",
+        description: "Failed to load your progress. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const toggleModuleCompletion = async (moduleId) => {
+    if (togglingCompletion) return;
+    
+    setTogglingCompletion(true);
+    try {
+      console.log(courseId, moduleId);
+      const response = await api.post('/module/toggle-completion', {
+        courseId,
+        moduleId
+      });
+      console.log("Toggle completion response:", response);
+      if (response.data && response.data.success) {
+        setCompletedModules(response.data.data);
+        
+        const action = completedModules.includes(moduleId) ? "unmarked" : "marked";
+        toast({
+          title: "Success",
+          description: `Module ${action} as completed`,
+        });
+      }
+    } catch (error) {
+      console.error("Error toggling module completion:", error);
+      toast({
+        title: "Error",
+        description: error.response?.data?.message || "Failed to update module status",
+        variant: "destructive",
+      });
+    } finally {
+      setTogglingCompletion(false);
     }
   };
 
@@ -74,7 +134,6 @@ const CourseDetails = () => {
     setEnrolling(true);
     try {
       await api.post(`/course/enroll/${courseId}`);
-      
       toast({
         title: "Enrollment successful",
         description: "You have successfully enrolled in this course",
@@ -98,6 +157,10 @@ const CourseDetails = () => {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
+  const isModuleCompleted = (moduleId) => {
+    return completedModules.some(id => id === moduleId);
+  };
+
   if (loading) {
     return (
       <div className="container mx-auto py-8 px-4">
@@ -106,7 +169,6 @@ const CourseDetails = () => {
             <Skeleton className="h-10 w-10 rounded-full" />
             <Skeleton className="h-6 w-40" />
           </div>
-          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="md:col-span-2 space-y-6">
               <Skeleton className="h-8 w-3/4" />
@@ -183,12 +245,19 @@ const CourseDetails = () => {
                 <Clock className="h-5 w-5 text-muted-foreground" />
                 <span>Created {formatDate(course.createdAt)}</span>
               </div>
+              
+              {isEnrolled && (
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>{completedModules.length} / {course.modules?.length || 0} completed</span>
+                </div>
+              )}
             </div>
             
             {course.image && (
               <div className="rounded-lg overflow-hidden mb-8">
                 <img 
-                  src={course.image} 
+                  src={course.image}
                   alt={course.title} 
                   className="w-full object-cover h-[300px]"
                 />
@@ -204,41 +273,22 @@ const CourseDetails = () => {
             
             <TabsContent value="modules" className="pt-4">
               <h2 className="text-xl font-semibold mb-4">Course Content</h2>
-
-              {/* <pre>{JSON.stringify(course, null, 2)}</pre>
-
-{course && course.modules && course.modules.length > 0 ? (
-  <div>
-    {course.modules.map((module, moduleIndex) => (
-      <div key={moduleIndex}>
-        <p>Module {moduleIndex + 1}: {module.title}</p>
-        
-        {module.content && module.content.length > 0 ? (
-          <div>
-            {module.content.map((item, contentIndex) => (
-              <p key={contentIndex}>- {item}</p>
-            ))}
-          </div>
-        ) : (
-          <p>No content in this module.</p>
-        )}
-      </div>
-    ))}
-  </div>
-) : (
-  <p>No modules found.</p>
-)} */}
                           
               {course.modules && course.modules.length > 0 ? (
                 <Accordion type="single" collapsible className="w-full">
                   {course.modules.map((module, index) => (
                     <AccordionItem key={module._id} value={module._id}>
                       <AccordionTrigger className="hover:bg-muted/50 px-4 py-2 rounded-md">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 w-full">
                           <div className="bg-primary/10 text-primary w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium">
                             {index + 1}
                           </div>
-                          <span>{module.title}</span>
+                          <span className="flex-1 text-left">{module.title}</span>
+                          {isEnrolled && isModuleCompleted(module._id) && (
+                            <Badge variant="outline" className="bg-green-100 text-green-700 border-green-200 ml-auto mr-4">
+                              <Check className="h-3 w-3 mr-1" /> Completed
+                            </Badge>
+                          )}
                         </div>
                       </AccordionTrigger>
                       <AccordionContent className="px-4 py-2">
@@ -255,9 +305,19 @@ const CourseDetails = () => {
                         )}
                         
                         {isEnrolled ? (
-                          <Button size="sm" className="mt-2">
-                            Start Module
-                          </Button>
+                          <div className="flex gap-2 mt-2">
+                            <Button size="sm">
+                              View Module
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant={isModuleCompleted(module._id) ? "destructive" : "outline"}
+                              onClick={() => toggleModuleCompletion(module._id)}
+                              disabled={togglingCompletion}
+                            >
+                              {isModuleCompleted(module._id) ? "Mark as Incomplete" : "Mark as Complete"}
+                            </Button>
+                          </div>
                         ) : (
                           <Alert className="mt-2">
                             <AlertTitle className="text-sm">Enroll to access this module</AlertTitle>
@@ -337,6 +397,24 @@ const CourseDetails = () => {
                 <CheckCircle className="h-5 w-5 text-green-500" />
                 <span>Access on mobile and desktop</span>
               </div>
+              
+              {isEnrolled && (
+                <div className="mt-2 pt-2 border-t">
+                  <h3 className="text-sm font-medium mb-1">Your Progress</h3>
+                  <div className="w-full bg-muted rounded-full h-2.5">
+                    <div 
+                      className="bg-primary h-2.5 rounded-full" 
+                      style={{ 
+                        width: `${course.modules?.length ? 
+                          Math.round((completedModules.length / course.modules.length) * 100) : 0}%` 
+                      }}
+                    ></div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {completedModules.length} of {course.modules?.length || 0} modules completed
+                  </p>
+                </div>
+              )}
             </CardContent>
             <CardFooter>
               {isMentor ? (

@@ -41,11 +41,13 @@ const Home = () => {
   useEffect(() => {
     // Fetch all courses
     dispatch(fetchProfile());
-    setIsAuthenticated(true);
     fetchCourses();
 
     // Fetch recommended courses if user is authenticated
+    if(isAuthenticated) 
     fetchRecommendedCourses();
+    else 
+        setLoadingRecommendations(false);
   }, [isAuthenticated]);
 
   const fetchCourses = async () => {
@@ -273,7 +275,11 @@ const Home = () => {
       </div>
 
       {/* Recommended Courses Section */}
-      {isAuthenticated && (
+      {(!isAuthenticated) ? (
+        <> 
+            Login To get Recommendations
+        </>
+      ) : (
         <div className="mb-8 sm:mb-10 md:mb-12">
           <div className="flex items-center gap-2 mb-4 sm:mb-6">
             <Sparkles className="h-4 sm:h-5 w-4 sm:w-5 text-yellow-500" />

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate hook
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,7 @@ import { Search } from "lucide-react";
 import api from "@/services/api";
 
 const AllCourses = () => {
+  const navigate = useNavigate(); // Initialize useNavigate hook
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,28 +21,27 @@ const AllCourses = () => {
   useEffect(() => {
     // Fetch courses from API
     const fetchCourses = async () => {
-  try {
-    const response = await api.get("/course/all");
-    
-    // Check if response has a json method (it's a Response object)
-    const result = response.json ? await (response.json()).data : response.data;
-    
-    if (result.success) {
-        // console.log(result.message);
-      setCourses(result.message);
-      setFilteredCourses(result.message);
-      
-      // Extract unique domains for tabs
-      const uniqueDomains = ["All", ...new Set(result.message.map(course => course.domain))];
-      setDomains(uniqueDomains);
-    }
-  } catch (error) {
-    console.error("Error fetching courses:", error);
-  } finally {
-    setLoading(false);
-  }
-};
-
+      try {
+        const response = await api.get("/course/all");
+        
+        // Check if response has a json method (it's a Response object)
+        const result = response.json ? await (response.json()).data : response.data;
+        
+        if (result.success) {
+          // console.log(result.message);
+          setCourses(result.message);
+          setFilteredCourses(result.message);
+          
+          // Extract unique domains for tabs
+          const uniqueDomains = ["All", ...new Set(result.message.map(course => course.domain))];
+          setDomains(uniqueDomains);
+        }
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
     fetchCourses();
   }, []);
@@ -69,6 +70,11 @@ const AllCourses = () => {
 
   const handleTabChange = (value) => {
     setActiveTab(value);
+  };
+
+  // Function to navigate to course details page
+  const navigateToCourse = (courseId) => {
+    navigate(`/courses/${courseId}`);
   };
 
   return (
@@ -110,7 +116,11 @@ const AllCourses = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredCourses.map((course) => (
-                <Card key={course._id} className="overflow-hidden transition-all hover:shadow-lg">
+                <Card 
+                  key={course._id} 
+                  className="overflow-hidden transition-all hover:shadow-lg cursor-pointer"
+                  onClick={() => navigateToCourse(course._id)}
+                >
                   <div className="aspect-video w-full overflow-hidden">
                     <img 
                       src={course.image} 
@@ -153,7 +163,15 @@ const AllCourses = () => {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button className="w-full">Enroll Now</Button>
+                    <Button 
+                      className="w-full"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent the card's onClick from triggering
+                        navigateToCourse(course._id);
+                      }}
+                    >
+                      View Course
+                    </Button>
                   </CardFooter>
                 </Card>
               ))}

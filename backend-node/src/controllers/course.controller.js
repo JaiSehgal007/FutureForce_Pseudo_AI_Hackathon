@@ -293,17 +293,43 @@ const getEnrolledCourses = asyncHandler(async (req, res) => {
     const userId = req.user?._id;
       if (!userId) throw new ApiError(400, "User ID is required");
     // Find all enrollments for the user and populate the course details
-  const enrolledCourses = await AttendedCourse.find({ user: userId }).populate("course");
+  const enrolledCourses = await AttendedCourse.find({ user: userId });
   
   
     // Map to just course details if you want
-    
-  
+    console.log("Enrolled courses:", enrolledCourses);
     return res.status(200).json(new ApiResponse(200, "Enrolled courses fetched", enrolledCourses));
   } catch (error) {
     throw new ApiError(500, error?.message || "Could not fetch enrolled courses");
     
   }
+});
+
+const checkIsEnrolled = asyncHandler(async (req, res) => {
+  const { courseId } = req.params;
+  const userId = req.user._id;
+
+  if (!mongoose.Types.ObjectId.isValid(courseId)) {
+    throw new ApiError(400, "Invalid course ID");
+  }
+
+  const enrollment = await AttendedCourse.findOne({ user: userId, course: courseId });
+  // console.log("Enrollment status:", !!enrollment);
+  return res.status(200).json(new ApiResponse(200, "Enrollment status fetched", !!enrollment));
+});
+
+const getCompletedModules = asyncHandler(async (req, res) => {
+  const { courseId } = req.params;
+  const userId = req.user._id;
+
+  if (!mongoose.Types.ObjectId.isValid(courseId)) {
+    throw new ApiError(400, "Invalid course ID");
+  }
+
+  const enrollment = await AttendedCourse.findOne({ user: userId, course: courseId });
+  if (!enrollment) throw new ApiError(404, "Enrollment not found");
+
+  return res.status(200).json(new ApiResponse(200, "Completed modules fetched", {completedModules :  enrollment.completedModules}));
 });
 
 export {
@@ -317,4 +343,6 @@ export {
   unenrollFromCourse,
   getEnrolledCourses,
   getRecommendedCourses,
+  checkIsEnrolled,
+  getCompletedModules
 };

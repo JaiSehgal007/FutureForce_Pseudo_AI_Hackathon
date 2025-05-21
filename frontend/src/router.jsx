@@ -10,6 +10,7 @@ import AddCourse from "./pages/AddCourse";
 import CourseDetails from "./pages/CourseDetails"; // Import the CourseDetails component
 import AllCourses from "./pages/AllCourses";
 import Chat from "./pages/ChatInterface"
+import MyCourses from "./pages/MyCourses";
 
 export const router = createBrowserRouter([
     {
@@ -71,7 +72,11 @@ export const router = createBrowserRouter([
         {
             path: '/chat',
             element: <Chat />,
-        }
+        },
+        {
+            path: '/my-courses',
+            element: <MyCourses />,
+        },
     ]
   }
 ]);

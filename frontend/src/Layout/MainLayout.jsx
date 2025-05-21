@@ -71,7 +71,7 @@ const MainLayout = () => {
 
   const navItems = [
     { path: '/', label: 'Dashboard', icon: <Home className="mr-2 h-4 w-4" /> },
-    { path: '/courses', label: 'My Courses', icon: <Book className="mr-2 h-4 w-4" /> },
+    { path: '/my-courses', label: 'My Courses', icon: <Book className="mr-2 h-4 w-4" /> },
     { path: '/discover', label: 'Discover', icon: <Compass className="mr-2 h-4 w-4" /> },
     { path: '/chat', label: 'AI Chat', icon: <MessageSquare className="mr-2 h-4 w-4" /> },
     { path: '/addCourse', label: 'Add Course', icon: <BookOpen className="mr-2 h-4 w-4" /> },

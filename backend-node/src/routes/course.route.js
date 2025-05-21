@@ -9,7 +9,9 @@ import {
     enrollInCourse,
     unenrollFromCourse,
     getEnrolledCourses,
-    getRecommendedCourses
+    getRecommendedCourses,
+    checkIsEnrolled,
+    getCompletedModules,
 } from "../controllers/course.controller.js";
 
 import {verifyJWT} from "../middlewares/auth.middleware.js"
@@ -51,5 +53,6 @@ router.post("/my-courses" ,
     getEnrolledCourses);
 
 router.get("/recommend", verifyJWT, getRecommendedCourses);
-
+router.get("/check-enrollment/:courseId", verifyJWT, checkIsEnrolled);
+router.get("/completed-modules/:courseId", verifyJWT, getCompletedModules);
 export default router;

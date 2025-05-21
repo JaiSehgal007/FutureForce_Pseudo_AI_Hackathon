@@ -32,6 +32,8 @@ const authSlice=createSlice({
     reducers:{
         logout(state){
             state.user=null
+            state.isAuthenticated=false
+            state.loading=false
         }
     },
     extraReducers:(builder)=>{
@@ -41,10 +43,12 @@ const authSlice=createSlice({
     .addCase(fetchProfile.fulfilled, (state, action) => {
       state.loading = false;
       state.user = action.payload.user;
+      state.isAuthenticated = action.payload.isAuthenticated;
     })
     .addCase(fetchProfile.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
+        state.isAuthenticated = false;
     });
     }
 })
