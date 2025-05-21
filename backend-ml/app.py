@@ -163,7 +163,12 @@ async def retrieve_faq_and_respond(request: QueryRequest):
         # Construct prompt for Azure OpenAI
         faq_context = "\n".join([f"Q: {faq['question']}\nA: {faq['answer']}" for faq in faqs])
         prompt = f"""
-        You are a helpful assistant. Use the following FAQ context to answer the user's query. If the context doesn't fully address the query, provide a general response based on your knowledge, but keep it concise and relevant.
+        You are a helpful assistant. Use the following FAQ context to answer the user's query. 
+        If the context doesn't fully address the query in that case check if the query is relevant to an educational website
+           CASE 1: if query is relevant then answer only with respect to our Learning Buddy website
+           CASE 2: if query is irrelevant then humble refuse to answer
+        
+        NOTE: REFRAIN FROM USING NAME OF ANY OTHER EDUCATIONAL PLATFORM
 
         FAQ Context:
         {faq_context}

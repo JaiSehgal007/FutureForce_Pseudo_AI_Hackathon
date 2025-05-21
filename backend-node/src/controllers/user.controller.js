@@ -170,6 +170,8 @@ const chatWithLLM = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Unauthorized: User not found");
   }
 
+  console.log(req.body)
+
   try {
     const fastapiUrl = `${process.env.FASTAPI_URL}/retrieve-faq-and-respond`;
     const response = await axios.post(fastapiUrl, { query: query.trim() }, {
