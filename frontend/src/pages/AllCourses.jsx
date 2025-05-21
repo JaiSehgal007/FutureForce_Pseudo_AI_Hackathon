@@ -74,7 +74,7 @@ const AllCourses = () => {
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="flex flex-col items-center mb-10">
-        <h1 className="text-4xl font-bold mb-2">AI Learning Buddy</h1>
+        <h1 className="text-4xl font-bold mb-2">Learning Buddy</h1>
         <p className="text-xl text-muted-foreground mb-6">Discover courses tailored to boost your skills</p>
         
         <div className="relative w-full max-w-md mb-8">

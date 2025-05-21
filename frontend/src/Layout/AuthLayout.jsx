@@ -49,10 +49,10 @@ const AuthLayout = ({ children }) => {
       <div className="w-full max-w-md z-10">
         <div className="flex flex-col items-center mb-8">
           <h1 className="text-4xl font-bold mb-2 text-gray-800 dark:text-white">
-            AI Learning Buddy
+            Learning Buddy
           </h1>
           <p className="text-gray-500 dark:text-gray-400">
-            Your personalized learning companion
+            Smarter Learning. Tailored for You.
           </p>
         </div>
         
