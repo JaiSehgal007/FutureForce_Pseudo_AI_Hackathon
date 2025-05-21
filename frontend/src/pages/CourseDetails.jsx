@@ -241,10 +241,29 @@ const CourseDetails = () => {
                 <span>{course.modules?.length || 0} modules</span>
               </div>
               
-              <div className="flex items-center gap-2">
-                <Clock className="h-5 w-5 text-muted-foreground" />
-                <span>Created {formatDate(course.createdAt)}</span>
-              </div>
+              {course.modules?.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <Clock className="h-5 w-5 text-muted-foreground" />
+                  <span>
+                    Created{" "}
+                    {
+                      formatDate(
+                        [...course.modules]
+                          .map((m) => new Date(m.createdAt))
+                          .sort((a, b) => a - b)[0] // Oldest module date
+                      )
+                    }
+                  </span>
+                </div>
+              )}
+
+              {/* <div className="mb-6">
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">Course Debug Info:</h3>
+                <pre className="bg-gray-100 dark:bg-gray-800 text-sm text-gray-800 dark:text-gray-100 p-4 rounded-md overflow-auto max-h-[400px]">
+                  {JSON.stringify(course, null, 2)}
+                </pre>
+              </div> */}
+
               
               {isEnrolled && (
                 <div className="flex items-center gap-2">
