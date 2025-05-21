@@ -8,7 +8,8 @@ import {registerUser,
     changeUserDetails,
     addInterestedAreas,
     addExperienceFields,
-    getRecommendedCourses
+    getRecommendedCourses,
+    chatWithLLM
 } from "../controllers/user.controller.js";
 import {verifyJWT} from "../middlewares/auth.middleware.js"
 import { upload } from "../middlewares/multer.middleware.js";
@@ -47,6 +48,8 @@ router.patch("/add-interested-areas" , verifyJWT , addInterestedAreas);
 router.patch("/add-experience-fields" , verifyJWT , addExperienceFields);
 
 router.get("/recommend", verifyJWT, getRecommendedCourses);
+
+router.post("/chat", verifyJWT, chatWithLLM);
 
 export default router;
 
