@@ -141,15 +141,17 @@ const getRecommendedCourses = asyncHandler(async (req, res) => {
 });
 
 
-// GET COURSE BY ID
 const getCourseById = asyncHandler(async (req, res) => {
   const { courseId } = req.params;
+
   if (!mongoose.Types.ObjectId.isValid(courseId)) {
     throw new ApiError(400, "Invalid courseId");
   }
 
   const result = await Course.aggregate([
     { $match: { _id: new mongoose.Types.ObjectId(courseId) } },
+
+    // Populate mentor
     {
       $lookup: {
         from: "users",
@@ -159,6 +161,18 @@ const getCourseById = asyncHandler(async (req, res) => {
         pipeline: [{ $project: { name: 1, email: 1 } }],
       },
     },
+
+    // Populate modules
+    {
+      $lookup: {
+        from: "modules", // the collection name in MongoDB (case-sensitive)
+        localField: "modules",
+        foreignField: "_id",
+        as: "modules"
+      },
+    },
+
+    // Format mentor as a single object
     {
       $project: {
         title: 1,
@@ -176,8 +190,11 @@ const getCourseById = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Course not found");
   }
 
-  return res.status(200).json(new ApiResponse(200, "Course fetched successfully", result[0]));
+  return res.status(200).json(
+    new ApiResponse(200, "Course fetched successfully", result[0])
+  );
 });
+
 
 // EDIT COURSE
 const editCourse = asyncHandler(async (req, res) => {

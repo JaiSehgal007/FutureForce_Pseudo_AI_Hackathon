@@ -61,7 +61,8 @@ const Login = () => {
       
       // Redirect to appropriate dashboard based on user type
       setTimeout(() => {
-        navigate(userType === "student" ? "/student-dashboard" : "/mentor-dashboard");
+        // does student-dashboard or mentor-dashboard really exist?
+        navigate(userType === "student" ? "/dashboard" : "/dashboard");
       }, 1000);
     } catch (error) {
       console.error("Login error:", error);
