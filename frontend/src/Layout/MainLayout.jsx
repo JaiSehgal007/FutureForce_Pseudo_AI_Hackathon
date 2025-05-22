@@ -75,9 +75,10 @@ const MainLayout = () => {
     { path: '/discover', label: 'Discover', icon: <Compass className="mr-2 h-4 w-4" /> },
     { path: '/chat', label: 'AI Chat', icon: <MessageSquare className="mr-2 h-4 w-4" /> },
     { path: '/addCourse', label: 'Add Course', icon: <BookOpen className="mr-2 h-4 w-4" /> },
-    { path: '/progress', label: 'My Progress', icon: <Layers className="mr-2 h-4 w-4" /> },
-    { path: '/achievements', label: 'Achievements', icon: <Trophy className="mr-2 h-4 w-4" /> },
-    { path: '/profile', label: 'Profile', icon: <User className="mr-2 h-4 w-4" /> }
+    { path: '/interested-areas', label: 'Add Interested Areas', icon: <Layers className="mr-2 h-4 w-4" /> },
+    // { path: '/progress', label: 'My Progress', icon: <Layers className="mr-2 h-4 w-4" /> },
+    // { path: '/achievements', label: 'Achievements', icon: <Trophy className="mr-2 h-4 w-4" /> },
+    // { path: '/profile', label: 'Profile', icon: <User className="mr-2 h-4 w-4" /> }
   ];
 
   // Determine the current page title based on path

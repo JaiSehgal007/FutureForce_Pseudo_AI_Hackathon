@@ -167,61 +167,179 @@ useEffect(() => {
   };
 
   // Render a course card with the given course data
+  // const renderCourseCard = (course) => {
+  //   if (!course) return null;
+
+  //   return (
+  //     <Card
+  //       key={course._id}
+  //       className="overflow-hidden transition-all hover:shadow-lg cursor-pointer"
+  //       onClick={() => navigateToCourse(course._id)}
+  //     >
+  //       <div className="aspect-video w-full overflow-hidden">
+  //         <img
+  //           src={course.image}
+  //           alt={course.title}
+  //           className="h-full w-full object-cover transition-all hover:scale-105"
+  //         />
+  //       </div>
+  //       <CardHeader className={isMobile ? "px-3 py-2" : "px-6 py-4"}>
+  //         <div className="flex justify-between items-start">
+  //           <CardTitle className={`${isMobile ? 'text-lg' : 'text-xl'} line-clamp-1`}>{course.title}</CardTitle>
+  //           <Badge variant="outline" className={isMobile ? "text-xs" : "text-sm"}>{course.domain}</Badge>
+  //         </div>
+  //         <CardDescription className={`line-clamp-2 ${isMobile ? 'text-xs' : 'text-sm'}`}>{course.description}</CardDescription>
+  //       </CardHeader>
+  //       <CardContent className={isMobile ? "px-3 py-2" : "px-6 py-4"}>
+  //         <div className="flex items-center gap-2">
+  //           <Avatar className={isMobile ? "h-8 w-8" : "h-10 w-10"}>
+  //             <AvatarImage
+  //               src={course.mentor.profilePicture || ""}
+  //               alt={course.mentor.name}
+  //             />
+  //             <AvatarFallback>{course.mentor.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+  //           </Avatar>
+  //           <div>
+  //             <p className={`font-medium ${isMobile ? 'text-xs' : 'text-sm'}`}>{course.mentor.name}</p>
+  //             <p className={`text-muted-foreground ${isMobile ? 'text-xs' : 'text-xs'}`}>{course.mentor.educationLevel}</p>
+  //           </div>
+  //         </div>
+  //         <div className="mt-3 flex items-center justify-between">
+  //           <div>
+  //             <p className={`text-muted-foreground ${isMobile ? 'text-xs' : 'text-sm'}`}>Modules</p>
+  //             <p className={`font-medium ${isMobile ? 'text-xs' : 'text-sm'}`}>{course.modules.length}</p>
+  //           </div>
+  //           <div>
+  //             <p className={`text-muted-foreground ${isMobile ? 'text-xs' : 'text-sm'}`}>Price</p>
+  //             <p className={`font-medium ${isMobile ? 'text-xs' : 'text-sm'}`}>
+  //               {course.price === 0 ? "Free" : `$${course.price}`}
+  //             </p>
+  //           </div>
+  //         </div>
+  //       </CardContent>
+  //       <CardFooter className={isMobile ? "px-3 py-2" : "px-6 py-4"}>
+  //         <Button className="w-full" size={isMobile ? "sm" : "default"}>Enroll Now</Button>
+  //       </CardFooter>
+  //     </Card>
+  //   );
+  // };
+
   const renderCourseCard = (course) => {
     if (!course) return null;
-
     return (
-      <Card
-        key={course._id}
-        className="overflow-hidden transition-all hover:shadow-lg cursor-pointer"
-        onClick={() => navigateToCourse(course._id)}
-      >
-        <div className="aspect-video w-full overflow-hidden">
-          <img
-            src={course.image}
-            alt={course.title}
-            className="h-full w-full object-cover transition-all hover:scale-105"
-          />
+  <Card
+    key={course._id}
+    className="flex flex-col justify-between overflow-hidden transition-all hover:shadow-lg cursor-pointer"
+    onClick={() => navigateToCourse(course._id)}
+  >
+    <div className="aspect-video w-full overflow-hidden">
+      <img
+        src={course.image}
+        alt={course.title}
+        className="h-full w-full object-cover transition-all hover:scale-105"
+      />
+    </div>
+
+    <div className={isMobile ? "px-3 py-2 flex flex-col flex-grow" : "px-6 py-4 flex flex-col flex-grow"}>
+      {/* Top Section: Title + Domain + Description */}
+      <div>
+        <div className="flex justify-between items-start">
+          <CardTitle className={`${isMobile ? 'text-lg' : 'text-xl'} line-clamp-1`}>
+            {course.title}
+          </CardTitle>
+          <Badge variant="outline" className={isMobile ? "text-xs" : "text-sm"}>
+            {course.domain}
+          </Badge>
         </div>
-        <CardHeader className={isMobile ? "px-3 py-2" : "px-6 py-4"}>
-          <div className="flex justify-between items-start">
-            <CardTitle className={`${isMobile ? 'text-lg' : 'text-xl'} line-clamp-1`}>{course.title}</CardTitle>
-            <Badge variant="outline" className={isMobile ? "text-xs" : "text-sm"}>{course.domain}</Badge>
-          </div>
-          <CardDescription className={`line-clamp-2 ${isMobile ? 'text-xs' : 'text-sm'}`}>{course.description}</CardDescription>
-        </CardHeader>
-        <CardContent className={isMobile ? "px-3 py-2" : "px-6 py-4"}>
+        <CardDescription className={`line-clamp-2 ${isMobile ? 'text-xs' : 'text-sm'}`}>
+          {course.description}
+        </CardDescription>
+      </div>
+
+      {/* Bottom Section: Mentor + Price + Button */}
+      <div className="mt-auto pt-4">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Avatar className={isMobile ? "h-8 w-8" : "h-10 w-10"}>
               <AvatarImage
                 src={course.mentor.profilePicture || ""}
                 alt={course.mentor.name}
               />
-              <AvatarFallback>{course.mentor.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+              <AvatarFallback>
+                {course.mentor.name.substring(0, 2).toUpperCase()}
+              </AvatarFallback>
             </Avatar>
             <div>
               <p className={`font-medium ${isMobile ? 'text-xs' : 'text-sm'}`}>{course.mentor.name}</p>
-              <p className={`text-muted-foreground ${isMobile ? 'text-xs' : 'text-xs'}`}>{course.mentor.educationLevel}</p>
+              <p className={`text-muted-foreground text-xs`}>{course.mentor.educationLevel}</p>
             </div>
           </div>
-          <div className="mt-3 flex items-center justify-between">
-            <div>
-              <p className={`text-muted-foreground ${isMobile ? 'text-xs' : 'text-sm'}`}>Modules</p>
-              <p className={`font-medium ${isMobile ? 'text-xs' : 'text-sm'}`}>{course.modules.length}</p>
-            </div>
-            <div>
-              <p className={`text-muted-foreground ${isMobile ? 'text-xs' : 'text-sm'}`}>Price</p>
-              <p className={`font-medium ${isMobile ? 'text-xs' : 'text-sm'}`}>
-                {course.price === 0 ? "Free" : `$${course.price}`}
-              </p>
-            </div>
+          <div className="text-right">
+            <p className={`text-muted-foreground ${isMobile ? 'text-xs' : 'text-sm'}`}>Price</p>
+            <p className={`font-medium ${isMobile ? 'text-xs' : 'text-sm'}`}>
+              {course.price === 0 ? "Free" : `$${course.price}`}
+            </p>
           </div>
-        </CardContent>
-        <CardFooter className={isMobile ? "px-3 py-2" : "px-6 py-4"}>
-          <Button className="w-full" size={isMobile ? "sm" : "default"}>Enroll Now</Button>
-        </CardFooter>
-      </Card>
-    );
+        </div>
+
+        <div className="mt-3">
+          <Button className="w-full" size={isMobile ? "sm" : "default"}>
+            Enroll Now
+          </Button>
+        </div>
+      </div>
+    </div>
+  </Card>
+);
+
+    // return (
+    //   <Card
+    //     key={course._id}
+    //     className="overflow-hidden transition-all hover:shadow-lg cursor-pointer"
+    //     onClick={() => navigateToCourse(course._id)}
+    //   >
+    //     <div className="aspect-video w-full overflow-hidden">
+    //       <img
+    //         src={course.image}
+    //         alt={course.title}
+    //         className="h-full w-full object-cover transition-all hover:scale-105"
+    //       />
+    //     </div>
+    //     <CardHeader className={isMobile ? "px-3 py-2" : "px-6 py-4"}>
+    //       <div className="flex justify-between items-start">
+    //         <CardTitle className={`${isMobile ? 'text-lg' : 'text-xl'} line-clamp-1`}>{course.title}</CardTitle>
+    //         <Badge variant="outline" className={isMobile ? "text-xs" : "text-sm"}>{course.domain}</Badge>
+    //       </div>
+    //       <CardDescription className={`line-clamp-2 ${isMobile ? 'text-xs' : 'text-sm'}`}>{course.description}</CardDescription>
+    //     </CardHeader>
+    //     <CardContent className={isMobile ? "px-3 py-2" : "px-6 py-4"}>
+    //       <div className="mt-3 flex items-center justify-between">
+    //         <div className="flex items-center gap-2">
+    //         <Avatar className={isMobile ? "h-8 w-8" : "h-10 w-10"}>
+    //           <AvatarImage
+    //             src={course.mentor.profilePicture || ""}
+    //             alt={course.mentor.name}
+    //           />
+    //           <AvatarFallback>{course.mentor.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+    //         </Avatar>
+    //         <div>
+    //           <p className={`font-medium ${isMobile ? 'text-xs' : 'text-sm'}`}>{course.mentor.name}</p>
+    //           <p className={`text-muted-foreground ${isMobile ? 'text-xs' : 'text-xs'}`}>{course.mentor.educationLevel}</p>
+    //         </div>
+    //         </div>
+    //         <div>
+    //           <p className={`text-muted-foreground ${isMobile ? 'text-xs' : 'text-sm'}`}>Price</p>
+    //           <p className={`font-medium ${isMobile ? 'text-xs' : 'text-sm'}`}>
+    //             {course.price === 0 ? "Free" : `$${course.price}`}
+    //           </p>
+    //         </div>
+    //       </div>
+    //     </CardContent>
+    //     <CardFooter className={isMobile ? "px-3 py-2" : "px-6 py-4"}>
+    //       <Button className="w-full" size={isMobile ? "sm" : "default"}>Enroll Now</Button>
+    //     </CardFooter>
+    //   </Card>
+    // );
   };
 
   const renderRecommendedCourseCard = (course) => {

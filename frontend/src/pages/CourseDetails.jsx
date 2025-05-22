@@ -457,7 +457,7 @@ const CourseDetails = () => {
                   onClick={handleEnroll}
                   disabled={enrolling}
                 >
-                  {enrolling ? "Enrolling..." : "Enroll Now"}
+                  {enrolling ? "Enrolling..." : "Get Started"}
                 </Button>
               )}
             </CardFooter>
